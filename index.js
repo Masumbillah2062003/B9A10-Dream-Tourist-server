@@ -28,6 +28,7 @@ async function run() {
     await client.connect();
 
     const userCollection = client.db('assignmentDB').collection("assignment")
+    // const registerCollection = client.db('assignmentDB').collection('registerUsers')
     
     app.get('/assignment', async(req, res)=> {
       const quary = userCollection.find()
@@ -49,6 +50,42 @@ async function run() {
       const result = await userCollection.insertOne(allData);
       res.send(result)
     })
+
+    app.get("/myList/:email", async(req, res) => {
+      console.log(req.params.email)
+      const result = await userCollection.find({userEmail : req.params.email}).toArray();
+      console.log(result)
+      res.send(result)
+    })
+
+    // update 
+
+
+
+    
+
+    // register users :
+
+    // app.get('/registerUsers', async(req, res) => {
+    //   const quary = registerCollection.find();
+    //   const result = await quary.toArray();
+    //   res.send(result)
+    // })
+
+    // app.get('/registerUsers/:id', async(req, res) => {
+    //   const id = req.params.id;
+    //   const quary = {_id : new ObjectId(id)}
+    //   const result = await registerCollection.findOne(quary)
+    //   res.send(result)
+    // })
+
+
+    // app.post('/registerUsers', async(req, res) => {
+    //   const users = req.body;
+    //   console.log(users)
+    //   const quary = await registerCollection.insertOne(users)
+    //   res.send(quary)
+    // })
 
 
     // Send a ping to confirm a successful connection
