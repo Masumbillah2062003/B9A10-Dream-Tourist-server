@@ -25,20 +25,20 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const userCollection = client.db('assignmentDB').collection("assignment")
     // const registerCollection = client.db('assignmentDB').collection('registerUsers')
-    
-    app.get('/assignment', async(req, res)=> {
+
+    app.get('/assignment', async (req, res) => {
       const quary = userCollection.find()
       const result = await quary.toArray()
       res.send(result)
     })
 
-    app.get('/assignment/:id', async(req, res) => {
+    app.get('/assignment/:id', async (req, res) => {
       const id = req.params.id
-      const quary = {_id : new ObjectId(id)}
+      const quary = { _id: new ObjectId(id) }
       const result = await userCollection.findOne(quary)
       res.send(result)
     })
@@ -51,18 +51,47 @@ async function run() {
       res.send(result)
     })
 
-    app.get("/myList/:email", async(req, res) => {
-      console.log(req.params.email)
-      const result = await userCollection.find({userEmail : req.params.email}).toArray();
+   
+    // update 
+    app.put("/assignment/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = {_id : new ObjectId(id)};
+      const options = { upsert: true }
+      const update = req.body;
+      const updateDoc = {
+        $set: {
+          image: update.image,
+          touristsName: update.touristsName,
+          countryName: update.countryName,
+          location: update.location,
+          shortDescription: update.shortDescription,
+          averageCost: update.averageCost,
+          seasonality: update.seasonality,
+          travelTime: update.travelTime,
+          totalVisitors: update.totalVisitors,
+        }
+      }
+      const result = await userCollection.updateOne(filter, updateDoc, options);
       console.log(result)
       res.send(result)
     })
 
-    // update 
+    // delete
+    app.delete('/assignment/:id', async(req, res) => {
+      const id = req.params.id;
+      const quary = {_id : new ObjectId(id)}
+      const result = await userCollection.deleteOne(quary);
+      res.send(result)
+    })
 
 
+    app.get("/myList/:email", async (req, res) => {
+      console.log(req.params.email)
+      const result = await userCollection.find({ userEmail: req.params.email }).toArray();
+      console.log(result)
+      res.send(result)
+    })
 
-    
 
     // register users :
 
