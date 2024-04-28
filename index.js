@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config()
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -27,8 +27,28 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
+    const userCollection = client.db('assignmentDB').collection("assignment")
+    
+    app.get('/assignment', async(req, res)=> {
+      const quary = userCollection.find()
+      const result = await quary.toArray()
+      res.send(result)
+    })
+
+    app.get('/assignment/:id', async(req, res) => {
+      const id = req.params.id
+      const quary = {_id : new ObjectId(id)}
+      const result = await userCollection.findOne(quary)
+      res.send(result)
+    })
 
 
+    app.post('/assignment', async (req, res) => {
+      const allData = req.body;
+      console.log(allData)
+      const result = await userCollection.insertOne(allData);
+      res.send(result)
+    })
 
 
     // Send a ping to confirm a successful connection
@@ -45,9 +65,9 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('Batch_9 Assignment_10 Server site Project')
+  res.send('Batch_9 Assignment_10 Server site Project')
 })
 
 app.listen(port, () => {
-    console.log(`Batch_9 Assignment_10 Serversite running port : ${port}`)
+  console.log(`Batch_9 Assignment_10 Serversite running port : ${port}`)
 })
