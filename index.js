@@ -101,26 +101,26 @@ async function run() {
    
     // register users :
 
-    // app.get('/registerUsers', async(req, res) => {
-    //   const quary = registerCollection.find();
-    //   const result = await quary.toArray();
-    //   res.send(result)
-    // })
+    app.get('/registerUsers', async(req, res) => {
+      const quary = registerCollection.find();
+      const result = await quary.toArray();
+      res.send(result)
+    })
 
-    // app.get('/registerUsers/:id', async(req, res) => {
-    //   const id = req.params.id;
-    //   const quary = {_id : new ObjectId(id)}
-    //   const result = await registerCollection.findOne(quary)
-    //   res.send(result)
-    // })
+    app.get('/registerUsers/:id', async(req, res) => {
+      const id = req.params.id;
+      const quary = {_id : new ObjectId(id)}
+      const result = await registerCollection.findOne(quary)
+      res.send(result)
+    })
 
 
-    // app.post('/registerUsers', async(req, res) => {
-    //   const users = req.body;
-    //   console.log(users)
-    //   const quary = await registerCollection.insertOne(users)
-    //   res.send(quary)
-    // })
+    app.post('/registerUsers', async(req, res) => {
+      const users = req.body;
+      console.log(users)
+      const quary = await registerCollection.insertOne(users)
+      res.send(quary)
+    })
 
 
     // Send a ping to confirm a successful connection
