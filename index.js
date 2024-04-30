@@ -91,8 +91,14 @@ async function run() {
       console.log(result)
       res.send(result)
     })
+    app.get("/country/:countryName", async (req, res) => {
+      console.log(req.params.countryName)
+      const result = await userCollection.find({ countryName: req.params.countryName }).toArray();
+      console.log(result)
+      res.send(result)
+    })
 
-
+   
     // register users :
 
     // app.get('/registerUsers', async(req, res) => {
