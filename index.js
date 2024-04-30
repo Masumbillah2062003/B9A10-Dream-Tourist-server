@@ -44,7 +44,12 @@ async function run() {
     })
 
 
-
+    app.post('/assignment', async (req, res) => {
+      const allData = req.body;
+      console.log(allData)
+      const result = await userCollection.insertOne(allData);
+      res.send(result)
+    })
 
    
     // update 
