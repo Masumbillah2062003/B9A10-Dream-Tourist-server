@@ -64,7 +64,7 @@ async function run() {
           touristsName: update.touristsName,
           countryName: update.countryName,
           location: update.location,
-          shortDescription: update.shortDescription,
+          shortDescription: update.shortDescription, 
           averageCost: update.averageCost,
           seasonality: update.seasonality,
           travelTime: update.travelTime,
